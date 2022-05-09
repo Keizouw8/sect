@@ -36,7 +36,9 @@ module.exports.Server = class {
                 if(JSON.parse(chunk.toString())[0] == "__auth"){
                     clientKey = JSON.parse(chunk.toString())[1];
                     vsock.emit = function(event, data){
-                        socket.write(Buffer.from(JSON.stringify([event, crypto.encryptAndSign(clientKey, data), Date.now()])));
+                        if(emit != "__auth" || emit != "end"){
+                            socket.write(Buffer.from(JSON.stringify([event, crypto.encryptAndSign(clientKey, data), Date.now()])));
+                        }
                     };
                 }else{
                     var forwarded = crypto.decryptedAndVerify(clientKey, JSON.parse(chunk.toString())[1]);
@@ -95,7 +97,9 @@ module.exports.Client = class {
                         serverKey = JSON.parse(chunk.toString())[1];
                         client.write(Buffer.from(JSON.stringify(["__auth", crypto.publicKey, Date.now()])));
                         vserve.emit = function(event, data){
-                            client.write(Buffer.from(JSON.stringify([event, crypto.encryptAndSign(serverKey, data), Date.now()])));
+                            if(emit != "__auth" || emit != "end"){
+                                client.write(Buffer.from(JSON.stringify([event, crypto.encryptAndSign(serverKey, data), Date.now()])));
+                            }
                         }
                         resolve()
                     }else{
