@@ -1,0 +1,24 @@
+{
+  "name": "sect",
+  "version": "1.0.0",
+  "description": "TCP speeds + HTTPS Security",
+  "main": "index.js",
+  "files": ["crypto.js", "index.js", "keypair.js"],
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Keizouw8/sect.git"
+  },
+  "keywords": [
+    "tcp",
+    "server",
+    "secure",
+    "socket"
+  ],
+  "author": "Keizou Wang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Keizouw8/sect/issues"
+  },
+  "homepage": "https://github.com/Keizouw8/sect#readme"
+}
