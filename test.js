@@ -1,21 +1,18 @@
-const package = require("./index.js");
-
-const server = new package.Server();
+const { Server, Client } = require("./index.js");
+const server = new Server()
 server.onconnect(function(socket){
-    socket.on("event", function(data){
-        console.log(data);
-        socket.emit("event", "hello");
-    });
+    console.log("server callback")
+    socket.emit("greetings", "hello");
     socket.on("end", function(){
-        console.log("yay");
+        console.log("client left :(")
     });
 });
-server.listen(8080, console.log("Listening to port 8080"));
+server.listen(8080);
 
-const client = new package.Client();
+const client = new Client();
 client.connect({host: "localhost", port: 8080}, function(server){
-    server.emit("event", "test");
-    server.on("event", function(data){
+    console.log("client callback")
+    server.on("greetings", function(data){
         console.log(data)
     });
 });
